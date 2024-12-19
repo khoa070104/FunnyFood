@@ -6,7 +6,7 @@ import com.khoana.funnyfood.entity.key.MenuRestaurantKey;
 import java.time.LocalDateTime;
 
 @Data
-@Entity(name = "MenuRestaurant")
+@Entity(name = "menurestaurant")
 public class MenuRestaurant {
     @EmbeddedId
     private MenuRestaurantKey id;

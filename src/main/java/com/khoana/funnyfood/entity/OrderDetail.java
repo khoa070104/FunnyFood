@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@Entity(name = "orderDetail")
+@Entity(name = "orderdetail")
 public class OrderDetail {
     @EmbeddedId
     private OrderDetailKey id;
