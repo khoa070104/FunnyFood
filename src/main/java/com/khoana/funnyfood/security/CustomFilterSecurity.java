@@ -13,7 +13,7 @@ public class CustomFilterSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors().disable().csrf().disable().authorizeHttpRequests()
-                .requestMatchers("/login/**").permitAll();
+                .requestMatchers("/login/**","/user").permitAll();
         return http.build();
     }
 
