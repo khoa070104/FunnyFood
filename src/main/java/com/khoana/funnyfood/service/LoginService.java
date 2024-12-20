@@ -20,7 +20,8 @@ public class LoginService implements LoginServiceImp {
     UserRepository userRepo;
     @Autowired
     CustomFilterSecurity customFilterSecurity;
-    //PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAllUser(){
         List<User> userList = userRepo.findAll();
@@ -35,32 +36,32 @@ public class LoginService implements LoginServiceImp {
     }
 
     public boolean checkLogin(String username, String password){
-        User user = userRepo.findByUsernameAndPassword(username, password);
-        return user != null;
-    }
-
-    public boolean signUp(SignUpRequest request){
-
-        if(getUserByUsername(request.getUsername()) != null){
-            //throw new RuntimeException("User already exists");
+        User user = userRepo.findUserByUsername(username);
+        if (user == null) {
             return false;
         }
-        User user = new User();
-
-        Role role = new Role();
-        role.setId(1);
-        user.setUsername(request.getUsername());
-        user.setPassword(customFilterSecurity.passwordEncoder().encode(request.getPassword()));
-        user.setFullName(request.getFullname());
-        user.setRole(role);
-        userRepo.save(user);
-        return true;
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
-    public User getUserByUsername(String username){
+    @Override
+    public User getUserByUsername(String username) {
         return userRepo.findUserByUsername(username);
     }
 
+    public boolean signUp(SignUpRequest request){
+        if(getUserByUsername(request.getUsername()) != null){
+            return false;
+        }
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setFullName(request.getFullname());
 
-
+        Role role = new Role();
+        role.setId(1);
+        user.setRole(role);
+        
+        userRepo.save(user);
+        return true;
+    }
 }

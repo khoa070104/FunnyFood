@@ -13,4 +13,5 @@ public class DataResponse {
     String message;
     Object data;
     Integer status = 200;
+    boolean isScuccess = true;
 }

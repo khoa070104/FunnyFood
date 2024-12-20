@@ -5,6 +5,7 @@ import com.khoana.funnyfood.payload.DataResponse;
 import com.khoana.funnyfood.payload.request.SignUpRequest;
 import com.khoana.funnyfood.service.LoginService;
 import com.khoana.funnyfood.service.imp.LoginServiceImp;
+import com.khoana.funnyfood.util.JwtUtilHelper;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,6 +24,8 @@ import java.util.Base64;
 public class LoginController {
     @Autowired
     LoginServiceImp loginService;
+    @Autowired
+    JwtUtilHelper jwtUtilHelper;
 
     @PostMapping()
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO){
@@ -32,7 +35,14 @@ public class LoginController {
 //        String enryptedKey = Encoders.BASE64.encode(secretKey.getEncoded()); // Mã hoá key
 //        System.out.println("Key: " + enryptedKey);
         boolean check = loginService.checkLogin(userDTO.getUsername(), userDTO.getPassword());
-        dataResponse.setData(check);
+        if(check){
+            String token = jwtUtilHelper.generateToken(userDTO.getUsername());
+            dataResponse.setData(token);
+        }
+        else{
+            dataResponse.setData(null);
+            dataResponse.setScuccess(false);
+        }
         dataResponse.setMessage(check ? "Login success" : "Login failed");
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
     }

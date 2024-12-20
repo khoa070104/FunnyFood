@@ -20,23 +20,30 @@ public class CustomFilterSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.cors().disable().csrf().disable().authorizeHttpRequests()
+        http
+            .cors().disable()
+            .csrf().disable()
+            .authorizeHttpRequests()
                 .requestMatchers("/login/**").permitAll()
-                .anyRequest().authenticated().and().httpBasic();
+                .anyRequest().authenticated()
+            .and()
+            .formLogin().disable()
+            .httpBasic();
+        
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            HttpSecurity security) throws Exception {
-        AuthenticationManagerBuilder builder = security.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.userDetailsService(customUser);
-        return builder.build();
-    }
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .userDetailsService(customUser)
+            .passwordEncoder(passwordEncoder())
+            .and()
+            .build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
