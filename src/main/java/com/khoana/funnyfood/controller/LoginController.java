@@ -5,11 +5,17 @@ import com.khoana.funnyfood.payload.DataResponse;
 import com.khoana.funnyfood.payload.request.SignUpRequest;
 import com.khoana.funnyfood.service.LoginService;
 import com.khoana.funnyfood.service.imp.LoginServiceImp;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.crypto.SecretKey;
+import java.util.Base64;
 
 @RestController
 @CrossOrigin("*")
@@ -21,6 +27,10 @@ public class LoginController {
     @PostMapping()
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO){
         DataResponse dataResponse = new DataResponse();
+//        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Tạo key
+//
+//        String enryptedKey = Encoders.BASE64.encode(secretKey.getEncoded()); // Mã hoá key
+//        System.out.println("Key: " + enryptedKey);
         boolean check = loginService.checkLogin(userDTO.getUsername(), userDTO.getPassword());
         dataResponse.setData(check);
         dataResponse.setMessage(check ? "Login success" : "Login failed");
