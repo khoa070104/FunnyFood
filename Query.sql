@@ -36,7 +36,7 @@ CREATE TABLE foods (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE RatingFood (
+CREATE TABLE ratingfood (
     id INT AUTO_INCREMENT,
     userid INT,
     foodid INT,
@@ -57,7 +57,7 @@ CREATE TABLE restaurant (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE MenuRestaurant (
+CREATE TABLE menurestaurant (
     cateid INT,
     resid INT,
     createdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -73,7 +73,7 @@ CREATE TABLE orders (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE orderDetail (
+CREATE TABLE orderdetail (
     orderid INT,
     foodid INT,
     createdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -81,7 +81,7 @@ CREATE TABLE orderDetail (
     PRIMARY KEY (orderid, foodid)
 );
 
-CREATE TABLE RatingRestaurant (
+CREATE TABLE ratingrestaurant (
     id INT AUTO_INCREMENT,
     resid INT,
     content TEXT,
@@ -101,13 +101,13 @@ CREATE TABLE promo (
 -- Thêm các ràng buộc
 ALTER TABLE users ADD CONSTRAINT fk_users_role_id FOREIGN KEY (roleid) REFERENCES roles (id);
 ALTER TABLE foods ADD CONSTRAINT fk_foods_cate_id FOREIGN KEY (cateid) REFERENCES categories (id);
-ALTER TABLE RatingFood ADD CONSTRAINT fk_ratingfood_user_id FOREIGN KEY (userid) REFERENCES users (id);
-ALTER TABLE RatingFood ADD CONSTRAINT fk_ratingfood_food_id FOREIGN KEY (foodid) REFERENCES foods (id);
-ALTER TABLE MenuRestaurant ADD CONSTRAINT fk_MenuRestaurant_cate_id FOREIGN KEY (cateid) REFERENCES categories (id);
-ALTER TABLE MenuRestaurant ADD CONSTRAINT fk_MenuRestaurant_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);
+ALTER TABLE ratingfood ADD CONSTRAINT fk_ratingfood_user_id FOREIGN KEY (userid) REFERENCES users (id);
+ALTER TABLE ratingfood ADD CONSTRAINT fk_ratingfood_food_id FOREIGN KEY (foodid) REFERENCES foods (id);
+ALTER TABLE menurestaurant ADD CONSTRAINT fk_MenuRestaurant_cate_id FOREIGN KEY (cateid) REFERENCES categories (id);
+ALTER TABLE menurestaurant ADD CONSTRAINT fk_MenuRestaurant_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);
 ALTER TABLE orders ADD CONSTRAINT fk_orders_user_id FOREIGN KEY (userid) REFERENCES users (id);
 ALTER TABLE orders ADD CONSTRAINT fk_orders_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);
-ALTER TABLE orderDetail ADD CONSTRAINT fk_orderdetail_order_id FOREIGN KEY (orderid) REFERENCES orders (id);
-ALTER TABLE orderDetail ADD CONSTRAINT fk_orderdetail_food_id FOREIGN KEY (foodid) REFERENCES foods (id);
-ALTER TABLE RatingRestaurant ADD CONSTRAINT fk_ratingrestaurant_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);
+ALTER TABLE orderdetail ADD CONSTRAINT fk_orderdetail_order_id FOREIGN KEY (orderid) REFERENCES orders (id);
+ALTER TABLE orderdetail ADD CONSTRAINT fk_orderdetail_food_id FOREIGN KEY (foodid) REFERENCES foods (id);
+ALTER TABLE ratingrestaurant ADD CONSTRAINT fk_ratingrestaurant_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);
 ALTER TABLE promo ADD CONSTRAINT fk_promo_res_id FOREIGN KEY (resid) REFERENCES restaurant (id);

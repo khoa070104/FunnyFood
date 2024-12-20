@@ -1,12 +1,9 @@
 package com.khoana.funnyfood.service;
 
 import com.khoana.funnyfood.dto.UserDTO;
-import com.khoana.funnyfood.entity.User;
-import com.khoana.funnyfood.repository.UserInterface;
+import com.khoana.funnyfood.repository.UserRepository;
 import com.khoana.funnyfood.service.imp.UserServiceImp;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class UserService implements UserServiceImp {
-    UserInterface userRepo;
+    UserRepository userRepo;
     @Override
     public List<UserDTO> getAllUser() {
         return userRepo.findAll().stream().map(user ->{

@@ -4,20 +4,23 @@ import com.khoana.funnyfood.dto.UserDTO;
 import com.khoana.funnyfood.entity.Role;
 import com.khoana.funnyfood.entity.User;
 import com.khoana.funnyfood.payload.request.SignUpRequest;
-import com.khoana.funnyfood.repository.UserInterface;
+import com.khoana.funnyfood.repository.UserRepository;
+import com.khoana.funnyfood.security.CustomFilterSecurity;
 import com.khoana.funnyfood.service.imp.LoginServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class LoginService implements LoginServiceImp {
     @Autowired
-    UserInterface userRepo;
+    UserRepository userRepo;
+    @Autowired
+    CustomFilterSecurity customFilterSecurity;
+    //PasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAllUser(){
         List<User> userList = userRepo.findAll();
@@ -26,7 +29,7 @@ public class LoginService implements LoginServiceImp {
                                     UserDTO userDTO = new UserDTO();
                                     userDTO.setUsername(user.getUsername());
                                     userDTO.setFullName(user.getFullName());
-                                    userDTO.setPassword(user.getPassword());
+                                    userDTO.setPassword(user.getPassword() );
                                     return userDTO;
                                 }).collect(Collectors.toList());
     }
@@ -47,7 +50,7 @@ public class LoginService implements LoginServiceImp {
         Role role = new Role();
         role.setId(1);
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        user.setPassword(customFilterSecurity.passwordEncoder().encode(request.getPassword()));
         user.setFullName(request.getFullname());
         user.setRole(role);
         userRepo.save(user);
