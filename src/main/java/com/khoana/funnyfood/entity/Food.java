@@ -21,7 +21,7 @@ public class Food {
     private String timeShip;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "cateid")
