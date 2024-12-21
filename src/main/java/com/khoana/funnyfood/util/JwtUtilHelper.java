@@ -22,4 +22,14 @@ public class JwtUtilHelper {
         String jws = Jwts.builder().subject(data).signWith(key).compact();
         return jws;
     }
+
+    public  boolean verifyToken(String token){
+        try{
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+            Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }
