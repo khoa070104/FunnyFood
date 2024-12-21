@@ -32,4 +32,5 @@ public class Restaurant {
 
     @Column(name = "opendate")
     private Date openDate;
+
 }

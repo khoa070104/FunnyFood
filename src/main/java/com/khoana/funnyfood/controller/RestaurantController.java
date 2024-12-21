@@ -44,6 +44,12 @@ public class RestaurantController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @GetMapping()
+    public ResponseEntity<?> getHomeRestaurant(){
+        DataResponse data = new DataResponse();
+        data.setData(restaurantService.getHomePageRestaurant());
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
     @GetMapping("/file/{filename:.+}")
     public ResponseEntity<?> getFileRestaurant(@PathVariable String filename){
         Resource resource = fileService.loadFile(filename);
