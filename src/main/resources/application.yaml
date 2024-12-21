@@ -13,8 +13,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+    servlet:
+      multipart:
+        max-file-size: 10MB
 
 server:
   port: 8080
 jwt:
   secret: Bd017Qho6KcXkog7OgPLZV0jh9PKWisu1nIgZHFiGOI=
+
+
+
+fileUpload:
+  rootPath: uploads
