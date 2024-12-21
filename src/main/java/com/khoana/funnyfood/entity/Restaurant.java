@@ -3,6 +3,7 @@ package com.khoana.funnyfood.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity(name = "restaurant")
@@ -30,5 +31,5 @@ public class Restaurant {
     private String address;
 
     @Column(name = "opendate")
-    private LocalDateTime openDate;
+    private Date openDate;
 }

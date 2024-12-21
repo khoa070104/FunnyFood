@@ -1,7 +1,10 @@
 package com.khoana.funnyfood.controller;
 
 import com.khoana.funnyfood.payload.DataResponse;
+import com.khoana.funnyfood.payload.request.RestaurantCreateRequest;
+import com.khoana.funnyfood.service.RestaurantService;
 import com.khoana.funnyfood.service.imp.FileServiceImp;
+import com.khoana.funnyfood.service.imp.RestaurantServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,13 +18,29 @@ import org.springframework.web.multipart.MultipartFile;
 public class RestaurantController {
     @Autowired
     FileServiceImp fileService;
+    @Autowired
+    RestaurantServiceImp restaurantService;
 
 
     @PostMapping()
-    public ResponseEntity<?> createRestaurant(@RequestParam MultipartFile file){
+    public ResponseEntity<?> createRestaurant(@RequestParam MultipartFile file,
+                                              @RequestParam String title ,
+                                              @RequestParam String subtitle,
+                                              @RequestParam String descript,
+                                              @RequestParam boolean isfreeship,
+                                              @RequestParam String address,
+                                              @RequestParam String dateOpen){
         DataResponse data = new DataResponse();
-        boolean isSuccess = fileService.saveFile(file);
-        data.setData(isSuccess);
+        RestaurantCreateRequest request = RestaurantCreateRequest.builder()
+                .title(title)
+                .subtitle(subtitle)
+                .descript(descript)
+                .isfreeship(isfreeship)
+                .address(address)
+                .dateOpen(dateOpen)
+                .build();
+        boolean check = restaurantService.insertRestaurant(request, file);
+        data.setData(check);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
