@@ -11,4 +11,5 @@ import java.util.List;
 public interface RestaurantServiceImp {
     boolean insertRestaurant(RestaurantCreateRequest restaurant, MultipartFile file);
     List<RestaurantDTO> getHomePageRestaurant();
+    RestaurantDTO getDetailRestaurant(int id);
 }

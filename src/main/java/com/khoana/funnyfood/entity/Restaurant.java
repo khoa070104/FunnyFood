@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity(name = "restaurant")
@@ -32,5 +33,14 @@ public class Restaurant {
 
     @Column(name = "opendate")
     private Date openDate;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<RatingRestaurant> ratingRestaurants;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<MenuRestaurant> menus;
 
 }

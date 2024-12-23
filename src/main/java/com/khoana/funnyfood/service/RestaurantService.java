@@ -1,6 +1,9 @@
 package com.khoana.funnyfood.service;
 
+import com.khoana.funnyfood.dto.CategoryDTO;
+import com.khoana.funnyfood.dto.MenuDTO;
 import com.khoana.funnyfood.dto.RestaurantDTO;
+import com.khoana.funnyfood.entity.Category;
 import com.khoana.funnyfood.entity.RatingRestaurant;
 import com.khoana.funnyfood.entity.Restaurant;
 import com.khoana.funnyfood.payload.request.RestaurantCreateRequest;
@@ -14,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 
@@ -101,5 +101,36 @@ public class RestaurantService implements RestaurantServiceImp {
             return sum / listRating.size();
         }
         return 0.0;
+    }
+
+    @Override
+    public RestaurantDTO getDetailRestaurant(int id) {
+        Optional<Restaurant> res = restaurantRepository.findById(id);
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        if(res.isPresent()){
+            List<CategoryDTO> listCategory = new ArrayList<>();
+            restaurantDTO.setTitle(res.get().getTitle());
+            restaurantDTO.setSubtitle(res.get().getSubtitle());
+            restaurantDTO.setFreeShip(res.get().getIsFreeShip());
+            restaurantDTO.setImage(res.get().getImage());
+            restaurantDTO.setRatting(calculateRating(ratingRestaurantRepository.findByRestaurantId(res.get().getId())));
+            for (var menu : res.get().getMenus()) {
+                CategoryDTO categoryDTO = new CategoryDTO();
+                List<MenuDTO> listMenu = new ArrayList<>();
+                Category cate = menu.getCategory();
+                categoryDTO.setName(cate.getNameCate());
+                for (var food : cate.getFoods()) {
+                    MenuDTO menuDTO = new MenuDTO();
+                    menuDTO.setImage(food.getImage());
+                    menuDTO.setPrice(food.getPrice());
+                    menuDTO.setTitle(food.getTitle());
+                    listMenu.add(menuDTO);
+                }
+                categoryDTO.setMenus(listMenu); // Set the menus to categoryDTO
+                listCategory.add(categoryDTO);
+            }
+            restaurantDTO.setCategories(listCategory); // Set the categories to restaurantDTO
+        }
+        return restaurantDTO;
     }
 }

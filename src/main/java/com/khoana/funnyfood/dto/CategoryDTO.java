@@ -1,5 +1,6 @@
 package com.khoana.funnyfood.dto;
 
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,12 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RestaurantDTO {
-    String image;
-    String title;
-    boolean isFreeShip;
-    double ratting;
-    String subtitle;
-    List<CategoryDTO> categories;
-
+public class CategoryDTO {
+    private String name;
+    List<MenuDTO> menus;
 }

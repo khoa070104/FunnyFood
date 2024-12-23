@@ -58,4 +58,11 @@ public class RestaurantController {
                 .body(resource);
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> getDetailRestaurant(@PathVariable int id){
+        DataResponse data = new DataResponse();
+        data.setData(restaurantService.getDetailRestaurant(id));
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
 }

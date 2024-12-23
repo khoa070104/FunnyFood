@@ -20,4 +20,7 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Food> foods;
+
+    @OneToMany(mappedBy = "category")
+    private List<MenuRestaurant> menus;
 }
