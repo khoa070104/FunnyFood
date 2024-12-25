@@ -6,6 +6,7 @@ import com.khoana.funnyfood.service.RestaurantService;
 import com.khoana.funnyfood.service.imp.FileServiceImp;
 import com.khoana.funnyfood.service.imp.RestaurantServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,7 @@ public class RestaurantController {
         data.setData(check);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+
 
     @GetMapping()
     public ResponseEntity<?> getHomeRestaurant(){

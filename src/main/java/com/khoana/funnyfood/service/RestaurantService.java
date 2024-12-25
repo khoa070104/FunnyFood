@@ -12,6 +12,7 @@ import com.khoana.funnyfood.repository.RestaurantRepository;
 import com.khoana.funnyfood.service.imp.FileServiceImp;
 import com.khoana.funnyfood.service.imp.RestaurantServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,6 +75,7 @@ public class RestaurantService implements RestaurantServiceImp {
         return isSuccess;
     }
 
+    @Cacheable("Home")
     @Override
     public List<RestaurantDTO> getHomePageRestaurant() {
         List<RestaurantDTO> listRes = new ArrayList<>();
@@ -102,6 +104,7 @@ public class RestaurantService implements RestaurantServiceImp {
         }
         return 0.0;
     }
+
 
     @Override
     public RestaurantDTO getDetailRestaurant(int id) {
