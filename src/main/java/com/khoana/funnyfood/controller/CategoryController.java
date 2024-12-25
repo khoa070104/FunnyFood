@@ -4,6 +4,7 @@ import com.khoana.funnyfood.payload.DataResponse;
 import com.khoana.funnyfood.service.CategoryService;
 import com.khoana.funnyfood.service.imp.CategoryServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,5 +24,11 @@ public class CategoryController {
         DataResponse data = new DataResponse();
         data.setData(categoryService.getListCategoryHomePage());
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @CacheEvict(value = "category", allEntries = true)
+    @GetMapping("/cleancatche")
+    public String clearCache(){
+        return "Clear cache success";
     }
 }
