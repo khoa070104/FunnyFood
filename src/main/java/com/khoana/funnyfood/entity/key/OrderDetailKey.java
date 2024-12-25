@@ -13,4 +13,12 @@ public class OrderDetailKey implements Serializable {
 
     @Column(name = "foodid")
     private Integer foodId;
+
+    public OrderDetailKey() {
+    }
+
+    public OrderDetailKey(Integer orderId, Integer foodId) {
+        this.orderId = orderId;
+        this.foodId = foodId;
+    }
 }

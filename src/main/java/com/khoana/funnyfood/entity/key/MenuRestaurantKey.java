@@ -13,4 +13,6 @@ public class MenuRestaurantKey implements Serializable {
 
     @Column(name = "resid")
     private Integer resId;
+
+    
 }
