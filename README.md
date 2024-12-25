@@ -2,5 +2,3 @@
 **cookin by Khoana** <br>
 
 
-<br>
-Processing ... 45% 
